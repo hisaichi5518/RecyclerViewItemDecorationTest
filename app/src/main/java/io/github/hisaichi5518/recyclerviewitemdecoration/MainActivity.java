@@ -17,12 +17,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        int margin = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
+        int margin = getResources().getDimensionPixelSize(R.dimen.margin);
 
         RecyclerView listView = (RecyclerView) findViewById(R.id.activity_main__list);
         listView.setAdapter(new ItemAdapter());
         listView.setLayoutManager(new GridLayoutManager(this, 2));
-        listView.addItemDecoration(new Decoration(margin, margin, margin, 0));
+        listView.addItemDecoration(new Decoration(margin, margin, margin, margin));
     }
 
     private class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> {
@@ -83,19 +83,9 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            int spanCount = ((GridLayoutManager) parent.getLayoutManager()).getSpanCount(); // 行の数
-            int spanIndex = layoutParams.getSpanIndex(); // 行でのポジション
-
-            // Leftは、常に設定する
             outRect.left = mLeft;
-
-            // Topは、1行目以外は設定する
-            outRect.top = position < spanCount ? 0 : mTop;
-
-            // Rightは、一番右のViewだけ設定する
-            outRect.right = (spanIndex + 1) % spanCount == 0 ? mRight : 0;
-
-            // Bottomは、常に設定する
+            outRect.top = mTop;
+            outRect.right = mRight;
             outRect.bottom = mBottom;
         }
     }
